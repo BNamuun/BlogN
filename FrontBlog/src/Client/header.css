@@ -1,0 +1,42 @@
+.wrap{
+    position: relative;
+    height: 40vh;
+}
+.wrap::before{
+    content: '';
+    position: absolute;
+    width: 100vw;
+    height: 40vh;
+    background-image: url("../images/kira-auf-der-heide-8s1wfA6aB-4-unsplash.jpg") ;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    opacity: .9;
+    /* overflow: hidden; */
+}
+.context{
+    position: absolute;
+    margin: 0 auto;
+    color: white;
+}
+.navbar{
+    display: flex;
+    justify-content: space-between;
+    color: white;
+}
+.navbarR{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 40px;
+}
+ul li{
+    list-style: none;
+}
+.header-text{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: white;
+}
