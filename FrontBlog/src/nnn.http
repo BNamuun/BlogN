@@ -1,0 +1,16 @@
+GET https://example.com/comments/1 HTTP/1.1
+
+###
+
+GET http://localhost:8000 HTTP/1.1
+
+###
+
+POST http://localhost:8000/categories HTTP/1.1
+content-type: application/json
+
+{
+    "name": "sample",
+    "name": "sample",
+    "name": "sample",
+}
