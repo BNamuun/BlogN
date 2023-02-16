@@ -3,7 +3,6 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { ClientPart } from "./Client/ClientPart";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Admin } from "./Admin/Admin";
-import { CategoriesList } from "./Admin/CategoriesList";
 function App() {
   return (
     <>

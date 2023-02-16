@@ -49,6 +49,24 @@ app.put("/categories", (req, res) => {
     res.sendStatus(404);
   }
 });
+const userInfo = {
+  username: "Namuun",
+  pass: "phone",
+};
+let userTokens = [];
+
+app.get("/login", (req, res) => {
+  const { username, password } = req.query;
+  console.log({ username, password });
+  if (userInfo.username === username && userInfo.pass === password) {
+    const token = uuid();
+    userTokens.push(token);
+    res.json({ token });
+  } else {
+    res.sendStatus(401);
+  }
+});
+
 app.listen(port, () => {
   console.log("App is listening at port", port);
 });
