@@ -3,8 +3,10 @@ const { v4: uuid } = require("uuid");
 const express = require("express");
 const cors = require("cors");
 const fs = require("fs");
-const { CategList } = require("../FrontBlog/src/Admin/CategList");
-
+const bcrypt = require("bcryptjs");
+// encrypt the pass into shifr,, example
+const hash = bcrypt.hashSync("phone");
+console.log({ hash });
 // Port Number
 const port = 8000;
 // creating express app
@@ -49,16 +51,25 @@ app.put("/categories", (req, res) => {
     res.sendStatus(404);
   }
 });
+app.delete("/categories/:id", (req, res) => {
+  const { id } = req.params;
+  const content = readCategories();
+  const matchedone = content.find(content.id === id);
+});
 const userInfo = {
   username: "Namuun",
-  pass: "phone",
+  // pass: "phone",
+  pass: "$2a$10$CAmsk4m9CJjup6CN0m4pYuzM.ho2SKEzukejWe5GD.VgsWT.9AIai",
 };
 let userTokens = [];
 
 app.get("/login", (req, res) => {
   const { username, password } = req.query;
   console.log({ username, password });
-  if (userInfo.username === username && userInfo.pass === password) {
+  if (
+    userInfo.username === username &&
+    bcrypt.compareSync(password, userInfo.pass)
+  ) {
     const token = uuid();
     userTokens.push(token);
     res.json({ token });

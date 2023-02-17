@@ -18,8 +18,15 @@ export function UserLogin() {
           window.location.reload();
           alert("Амжилттай нэвтэрлээ");
         }
+      })
+      .catch(({ response, code }) => {
+        if (response.status === 401) {
+          alert("wrong pass or username");
+        } else {
+          alert(code);
+        }
       });
-    // return console.log({ username, password });
+    return console.log({ username, password });
   }
   return (
     <div className="container w-50 mt-5 d-flex flex-column gap-2">

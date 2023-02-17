@@ -7,10 +7,16 @@ import NavDropdown from "react-bootstrap/NavDropdown";
 import { Link } from "react-router-dom";
 
 export function NavBar() {
+  function logout() {
+    localStorage.removeItem("loginToken");
+    window.location.reload();
+  }
   return (
     <Navbar className=" navbar navbar-dark bg-dark" expand="sm">
       <Container fluid>
-        <Navbar.Brand href="#">Admin</Navbar.Brand>
+        <Navbar.Brand to="/admin" as={Link}>
+          Admin
+        </Navbar.Brand>
         <Navbar.Toggle aria-controls="navbarScroll" />
         <Navbar.Collapse id="navbarScroll">
           <Nav
@@ -45,6 +51,10 @@ export function NavBar() {
             />
             <Button variant="outline-success">Search</Button>
           </Form>
+          <Button onClick={logout} variant="outline-danger mx-2">
+            {" "}
+            Гарах
+          </Button>
         </Navbar.Collapse>
       </Container>
     </Navbar>

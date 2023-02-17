@@ -12,9 +12,9 @@ export function Admin() {
     <>
       <NavBar />
       <Routes>
+        <Route path="/" element={<h1>Welcome</h1>} />
         <Route path="/categories" element={<CategoriesList />} />
       </Routes>
-      <h1> Welcome</h1>
     </>
   );
 }
