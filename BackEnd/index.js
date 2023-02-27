@@ -54,7 +54,14 @@ app.put("/categories", (req, res) => {
 app.delete("/categories/:id", (req, res) => {
   const { id } = req.params;
   const content = readCategories();
-  const matchedone = content.find(content.id === id);
+  const matchedOne = content.find((content) => content.id === id);
+  if (matchedOne) {
+    const categories = content.filter((category) => category.id !== id);
+    fs.writeFileSync("./Data/Categories.json", JSON.stringify(categories));
+    res.json({ deletedID: id });
+  } else {
+    res.sendStatus(404);
+  }
 });
 const userInfo = {
   username: "Namuun",

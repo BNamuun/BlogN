@@ -5,6 +5,7 @@ import Modal from "react-bootstrap/Modal";
 import { CategList } from "./CategList";
 import { v4 as uuidv4 } from "uuid";
 import axios from "axios";
+import { useSearchParams } from "react-router-dom";
 export function CategoriesList() {
   const [list, setList] = useState([]);
   const [list1, setList1] = useState([]);
@@ -33,13 +34,14 @@ export function CategoriesList() {
           {/* <button className='btn btn-primary'> Шинэ</button> */}
           <ModalNew Refresh={Refresh} />
         </div>
-        <CategList list={list1} />
+        <CategList list={list1} GetList={GetList} />
       </div>
     </>
   );
 }
 
 function ModalNew({ onChange, Refresh }) {
+  const [searchParams, setSearchParams] = useSearchParams({});
   const [text, setText] = useState("");
   function getVal(e) {
     setText(e.target.value);
@@ -60,15 +62,23 @@ function ModalNew({ onChange, Refresh }) {
         }
       });
   }
+  function ModalFunction() {
+    setShow(true);
+    setSearchParams({ editing: "new" });
+  }
   const [show, setShow] = useState(false);
 
-  const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
+  function handleClose() {
+    setShow(false);
+    setSearchParams({});
+  }
+  // const handleClose = () => setShow(false);
+  // const handleShow = () => setShow(true);
 
   return (
     <>
-      <Button variant="primary" onClick={handleShow}>
-        Launch demo modal
+      <Button variant="primary" onClick={ModalFunction}>
+        Шинэ
       </Button>
 
       <Modal show={show} onHide={handleClose}>
