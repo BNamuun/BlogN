@@ -18,8 +18,8 @@ export function CategList({ list, GetList }) {
       });
     }
   }
-  function EditBtn() {
-    alert("works");
+  function EditBtn(id) {
+    setSearchParams({ editing: id });
   }
   return (
     <>
