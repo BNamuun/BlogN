@@ -6,7 +6,6 @@ import { useSearchParams } from "react-router-dom";
 export function CategList({ list, GetList }) {
   // const [editing, setEditing] = useState("");
   const [searchParams, setSearchParams] = useSearchParams({});
-  const editing = searchParams.get("editing");
   function DeleteBtn(id) {
     if (window.confirm("Delete")) {
       axios.delete(`http://localhost:8000/categories/${id}`).then((res) => {

@@ -7,9 +7,7 @@ import { v4 as uuidv4 } from "uuid";
 import axios from "axios";
 import { useSearchParams } from "react-router-dom";
 export function CategoriesList() {
-  const [list, setList] = useState([]);
   const [list1, setList1] = useState([]);
-
   function GetList() {
     axios.get("http://localhost:8000/categories").then((res) => {
       const { data, status } = res;
@@ -40,9 +38,11 @@ export function CategoriesList() {
   );
 }
 
-function ModalNew({ onChange, Refresh }) {
+function ModalNew({ Refresh }) {
   const [searchParams, setSearchParams] = useSearchParams({});
   const [text, setText] = useState("");
+  const [show, setShow] = useState(false);
+
   function getVal(e) {
     setText(e.target.value);
   }
@@ -62,18 +62,19 @@ function ModalNew({ onChange, Refresh }) {
         }
       });
   }
+
+  const editing = searchParams.get("editing");
   function ModalFunction() {
     setShow(true);
     setSearchParams({ editing: "new" });
   }
-  const [show, setShow] = useState(false);
 
   function handleClose() {
     setShow(false);
     setSearchParams({});
   }
   // const handleClose = () => setShow(false);
-  // const handleShow = () => setShow(true);
+  const handleShow = () => setShow(true);
 
   return (
     <>
@@ -81,7 +82,7 @@ function ModalNew({ onChange, Refresh }) {
         Шинэ
       </Button>
 
-      <Modal show={show} onHide={handleClose}>
+      <Modal show={editing} onHide={handleClose}>
         <Modal.Header closeButton>
           <Modal.Title>Modal heading</Modal.Title>
         </Modal.Header>
