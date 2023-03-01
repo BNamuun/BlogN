@@ -3,30 +3,41 @@ import axios from "axios";
 import { useState } from "react";
 import { useSearchParams } from "react-router-dom";
 
-export function CategList({ list, GetList }) {
+export function CategList({ list, getList }) {
   // const [editing, setEditing] = useState("");
   const [searchParams, setSearchParams] = useSearchParams({});
-  function DeleteBtn(id) {
+  const editing = searchParams.get("editing");
+  function deleteBtn(id) {
     if (window.confirm("Delete")) {
       axios.delete(`http://localhost:8000/categories/${id}`).then((res) => {
         const { data, status } = res;
         if (status === 200) {
           console.log(data);
-          GetList();
+          getList();
         }
       });
     }
   }
-  function EditBtn(id) {
+  function editBtn(id) {
     setSearchParams({ editing: id });
+    console.log(searchParams);
+    axios.put(`http://localhost:8000/categories/${editing}`).then((res)=>{
+      const {data, status} = res;
+      if (status ===200){
+        console.log(data);
+        getList();
+      }else{
+        alert('aldaa')
+      }
+    })
   }
   return (
     <>
       <ul>
         {list.map((item) => (
           <li key={item.id}>
-            {item.name} <button onClick={() => EditBtn(item.id)}>Засах</button>
-            <button onClick={() => DeleteBtn(item.id)}> Устгах</button>
+            {item.name} <button onClick={() => editBtn(item.id)}>Засах</button>
+            <button onClick={() => deleteBtn(item.id)}> Устгах</button>
           </li>
         ))}
       </ul>

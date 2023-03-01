@@ -39,9 +39,9 @@ app.get("/categories", (req, res) => {
   const categories = readCategories();
   res.json(categories);
 });
-app.put("/categories", (req, res) => {
+app.put("/categories/:id", (req, res) => {
   const categories = readCategories();
-  const { id } = req.body;
+  const { id } = req.params;
   const deletedItem = categories.find((element) => element.id === id);
   if (deletedItem) {
     const UpdatedList = categories.filter((category) => category.id !== id);

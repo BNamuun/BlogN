@@ -8,7 +8,7 @@ import axios from "axios";
 import { useSearchParams } from "react-router-dom";
 export function CategoriesList() {
   const [list1, setList1] = useState([]);
-  function GetList() {
+  function getList() {
     axios.get("http://localhost:8000/categories").then((res) => {
       const { data, status } = res;
       if (status === 200) {
@@ -18,11 +18,11 @@ export function CategoriesList() {
       }
     });
   }
-  function Refresh() {
-    GetList();
+  function refresh() {
+    getList();
   }
   useEffect(() => {
-    GetList();
+    getList();
   }, []);
   return (
     <>
@@ -30,15 +30,15 @@ export function CategoriesList() {
         <div className="d-flex justify-content-around mt-5">
           <h1>Ангилал</h1>
           {/* <button className='btn btn-primary'> Шинэ</button> */}
-          <ModalNew Refresh={Refresh} />
+          <ModalNew refresh={refresh} />
         </div>
-        <CategList list={list1} GetList={GetList} />
+        <CategList list={list1} GetList={getList} />
       </div>
     </>
   );
 }
 
-function ModalNew({ Refresh }) {
+function ModalNew({ refresh }) {
   const [searchParams, setSearchParams] = useSearchParams({});
   const [text, setText] = useState("");
   const [show, setShow] = useState(false);
@@ -47,7 +47,7 @@ function ModalNew({ Refresh }) {
     setText(e.target.value);
   }
   // console.log(text);
-  function SaveData() {
+  function saveData() {
     // onChange(text);
     axios
       .post("http://localhost:8000/categories", {
@@ -56,7 +56,7 @@ function ModalNew({ Refresh }) {
       .then((res) => {
         const { status } = res;
         if (status === 201) {
-          Refresh();
+          refresh();
           setText("");
           handleClose();
         }
@@ -64,7 +64,7 @@ function ModalNew({ Refresh }) {
   }
 
   const editing = searchParams.get("editing");
-  function ModalFunction() {
+  function modalFunction() {
     setShow(true);
     setSearchParams({ editing: "new" });
   }
@@ -78,7 +78,7 @@ function ModalNew({ Refresh }) {
 
   return (
     <>
-      <Button variant="primary" onClick={ModalFunction}>
+      <Button variant="primary" onClick={modalFunction}>
         Шинэ
       </Button>
 
@@ -94,7 +94,7 @@ function ModalNew({ Refresh }) {
           <Button variant="secondary" onClick={handleClose}>
             Close
           </Button>
-          <Button variant="primary" onClick={SaveData}>
+          <Button variant="primary" onClick={saveData}>
             Save Changes
           </Button>
         </Modal.Footer>
