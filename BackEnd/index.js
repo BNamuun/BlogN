@@ -4,6 +4,12 @@ const express = require("express");
 const cors = require("cors");
 const fs = require("fs");
 const bcrypt = require("bcryptjs");
+const mysql = require("mysql2");
+const connection = mysql.createConnection({
+  host: "localhost",
+  user: "root",
+  database: "morning",
+});
 // encrypt the pass into shifr,, example
 const hash = bcrypt.hashSync("phone");
 console.log({ hash });
@@ -50,6 +56,16 @@ app.put("/categories/:id", (req, res) => {
   } else {
     res.sendStatus(404);
   }
+});
+app.get("/testSql", (req, res) => {
+  connection.query(
+    "SELECT * FROM `titles` limit 10",
+    function (err, results, fields) {
+      res.json({ results });
+      // console.log(results); // results contains rows returned by server
+      // console.log(fields); // fields contains extra meta data about results, if available
+    }
+  );
 });
 app.delete("/categories/:id", (req, res) => {
   const { id } = req.params;
