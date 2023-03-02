@@ -4,12 +4,12 @@ const express = require("express");
 const cors = require("cors");
 const fs = require("fs");
 const bcrypt = require("bcryptjs");
-const mysql = require("mysql2");
-const connection = mysql.createConnection({
-  host: "localhost",
-  user: "root",
-  database: "morning",
-});
+// const mysql = require("mysql2");
+// const connection = mysql.createConnection({
+//   host: "localhost",
+//   user: "root",
+//   database: "morning",
+// });
 // encrypt the pass into shifr,, example
 const hash = bcrypt.hashSync("phone");
 console.log({ hash });
@@ -48,25 +48,26 @@ app.get("/categories", (req, res) => {
 app.put("/categories/:id", (req, res) => {
   const categories = readCategories();
   const { id } = req.params;
-  const deletedItem = categories.find((element) => element.id === id);
-  if (deletedItem) {
-    const UpdatedList = categories.filter((category) => category.id !== id);
-    fs.writeFileSync("./Data/Categories.json", JSON.stringify(UpdatedList));
-    res.json({ deleted: id });
-  } else {
+  const {name} = req.body;
+  const index = categories.findIndex((element) => element.id ===id);
+  if(index > -1){
+    categories[index].name = name;
+    fs.writeFileSync("./Data/Categories.json", JSON.stringify(categories));
+    res.json({updatedId: id});
+  }else{
     res.sendStatus(404);
   }
 });
-app.get("/testSql", (req, res) => {
-  connection.query(
-    "SELECT * FROM `titles` limit 10",
-    function (err, results, fields) {
-      res.json({ results });
-      // console.log(results); // results contains rows returned by server
-      // console.log(fields); // fields contains extra meta data about results, if available
-    }
-  );
-});
+// app.get("/testSql", (req, res) => {
+//   connection.query(
+//     "SELECT * FROM `titles` limit 10",
+//     function (err, results, fields) {
+//       res.json({ results });
+//       // console.log(results); // results contains rows returned by server
+//       // console.log(fields); // fields contains extra meta data about results, if available
+//     }
+//   );
+// });
 app.delete("/categories/:id", (req, res) => {
   const { id } = req.params;
   const content = readCategories();

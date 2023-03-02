@@ -1,13 +1,12 @@
-import { getValue } from "@testing-library/user-event/dist/utils";
 import React, { useEffect, useState } from "react";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 import { CategList } from "./CategList";
-import { v4 as uuidv4 } from "uuid";
 import axios from "axios";
 import { useSearchParams } from "react-router-dom";
 export function CategoriesList() {
   const [list1, setList1] = useState([]);
+  const [text, setText] = useState("")
   function getList() {
     axios.get("http://localhost:8000/categories").then((res) => {
       const { data, status } = res;
@@ -30,15 +29,15 @@ export function CategoriesList() {
         <div className="d-flex justify-content-around mt-5">
           <h1>Ангилал</h1>
           {/* <button className='btn btn-primary'> Шинэ</button> */}
-          <ModalNew refresh={refresh} />
+          <ModalNew refresh={refresh} setText = {setText}/>
         </div>
-        <CategList list={list1} GetList={getList} />
+        <CategList list={list1} refresh={refresh} setText ={setText} />
       </div>
     </>
   );
 }
 
-function ModalNew({ refresh }) {
+function ModalNew({refresh, setText}) {
   const [searchParams, setSearchParams] = useSearchParams({});
   const [text, setText] = useState("");
   const [show, setShow] = useState(false);
@@ -46,24 +45,38 @@ function ModalNew({ refresh }) {
   function getVal(e) {
     setText(e.target.value);
   }
+  const editing = searchParams.get("editing");
   // console.log(text);
   function saveData() {
     // onChange(text);
-    axios
-      .post("http://localhost:8000/categories", {
-        name: text,
-      })
-      .then((res) => {
-        const { status } = res;
-        if (status === 201) {
+    if(editing ==="new"){
+      axios
+        .post("http://localhost:8000/categories", {
+          name: text,
+        })
+        .then((res) => {
+          const { status } = res;
+          if (status === 201) {
+            refresh();
+            setText("");
+            handleClose();
+          }
+        });
+    }else{
+      axios.put(`http://localhost:8000/categories/${editing}`,{
+        name:text,
+      }).then((res)=>{
+        const{status} = res;
+        if(status === 200){
           refresh();
           setText("");
           handleClose();
         }
-      });
+      })
+    }
   }
 
-  const editing = searchParams.get("editing");
+
   function modalFunction() {
     setShow(true);
     setSearchParams({ editing: "new" });
