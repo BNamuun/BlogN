@@ -2,8 +2,8 @@ import axios from "axios";
 import { useState } from "react";
 import { useSearchParams } from "react-router-dom";
 
-export function CategList({ list, refresh, setText }) {
-  const [text, setText] = useState("");
+export function CategList({ list, refresh }) {
+  // const [text, setText] = useState("");
   const [searchParams, setSearchParams] = useSearchParams({});
   // const editing = searchParams.get("editing");
   function deleteBtn(id) {
@@ -17,16 +17,17 @@ export function CategList({ list, refresh, setText }) {
       });
     }
   }
-  function editBtn(id,name) {
+  function editBtn(id) {
     setSearchParams({ editing: id });
-    setText(name);
+    // setText(name);
   }
   return (
     <>
       <ul>
         {list.map((item, index) => (
           <li key={item.id}>
-            {item.name} <button onClick={() => editBtn(item.id, item.name)}>Засах</button>
+            {item.name}{" "}
+            <button onClick={() => editBtn(item.id, item.name)}>Засах</button>
             <button onClick={() => deleteBtn(item.id)}> Устгах</button>
           </li>
         ))}
