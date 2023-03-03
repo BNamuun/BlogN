@@ -3,6 +3,12 @@ import axios from "axios";
 export function UserLogin() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+
+  function handleKeyDown(e) {
+    if (e.key === "Enter") {
+      login();
+    }
+  }
   function login() {
     axios
       .get(
@@ -39,6 +45,7 @@ export function UserLogin() {
         type={"password"}
         className="form-control"
         placeholder="нууц үг"
+        onKeyDown={handleKeyDown}
         onChange={(e) => setPassword(e.target.value)}
       ></input>
       <button onClick={login} className="btn btn-primary">
