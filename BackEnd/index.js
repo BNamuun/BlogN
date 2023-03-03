@@ -144,6 +144,18 @@ app.get("/login", (req, res) => {
   }
 });
 
+app.post("/articles", (req, res) => {
+  const { title, categoryId, text } = req.body;
+  console.log({ title, categoryId, text });
+  connection.query(
+    `insert into articles Values(?,?,?,?)`,
+    [uuid(), title, categoryId, text],
+    function (err, results, fields) {
+      res.sendStatus(201);
+    }
+  );
+});
+
 app.listen(port, () => {
   console.log("App is listening at port", port);
 });
