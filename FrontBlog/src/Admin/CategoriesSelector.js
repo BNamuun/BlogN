@@ -14,7 +14,7 @@ export function CategoriesSelector({ value, onChange }) {
     });
   }, []);
   return (
-    <div className="mx-4 d-flex flex-column gap-3">
+    <div>
       <h1>Ангилал нэмэх</h1>
       <select
         value={value}

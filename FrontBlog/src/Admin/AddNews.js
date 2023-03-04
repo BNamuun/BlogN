@@ -23,7 +23,7 @@ export function AddNews() {
   }
   console.log(categoryId);
   return (
-    <>
+    <div className="d-flex flex-column gap-3 m-5">
       <CategoriesSelector
         value={categoryId}
         onChange={(val) => setCategoryId(val)}
@@ -43,6 +43,6 @@ export function AddNews() {
       <button className="btn btn-primary m-3" onClick={submit}>
         Submit
       </button>
-    </>
+    </div>
   );
 }
