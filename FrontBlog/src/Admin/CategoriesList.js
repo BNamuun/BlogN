@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
-import { CategList } from "./CategList";
+import { ListField } from "./ListField";
 import axios from "axios";
 import { useSearchParams } from "react-router-dom";
 export function CategoriesList() {
@@ -31,7 +31,7 @@ export function CategoriesList() {
           {/* <button className='btn btn-primary'> Шинэ</button> */}
           <ModalNew refresh={refresh} />
         </div>
-        <CategList list={list1} refresh={refresh} />
+        <ListField list={list1} refresh={refresh} />
       </div>
     </>
   );

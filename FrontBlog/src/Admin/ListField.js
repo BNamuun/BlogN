@@ -2,7 +2,7 @@ import axios from "axios";
 import { useState } from "react";
 import { useSearchParams } from "react-router-dom";
 
-export function CategList({ list, refresh }) {
+export function ListField({ list, refresh }) {
   // const [text, setText] = useState("");
   const [searchParams, setSearchParams] = useSearchParams({});
   // const editing = searchParams.get("editing");
