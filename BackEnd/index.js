@@ -149,7 +149,7 @@ app.post("/articles", (req, res) => {
   console.log({ title, categoryId, text });
   connection.query(
     `insert into articles Values(?,?,?,?)`,
-    [uuid(), categoryId, title, text],
+    [uuid(), title, text, categoryId],
     function (err, results, fields) {
       res.sendStatus(201);
     }

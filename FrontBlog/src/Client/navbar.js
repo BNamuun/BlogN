@@ -30,6 +30,9 @@ export function NavBar() {
             <Nav.Link to="/admin/addNews" as={Link}>
               News
             </Nav.Link>
+            <Nav.Link to="/blog" as={Link}>
+              Articles
+            </Nav.Link>
             <Nav.Link href="#action2">Link</Nav.Link>
             <NavDropdown title="Link" id="navbarScrollingDropdown">
               <NavDropdown.Item href="#action3">Action</NavDropdown.Item>
