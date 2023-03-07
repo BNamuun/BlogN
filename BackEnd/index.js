@@ -103,23 +103,20 @@ app.get("/categories", (req, res) => {
     // console.log(fields); // fields contains extra meta data about results, if available
   });
 });
-app.post("/articles", (req, res) => {
+app.post("/articles/test", (req, res) => {
   const { posts } = req.body;
   // console.log({ posts });
-
-  posts
-    ? posts.map((post) =>
-        connection.query(
-          `insert into articles (id, title, content) Values(?,?,?)`,
-          [
-            uuid(),
-            post.title,
-            post.body,
-            // post.id,
-          ]
-        )
-      )
-    : alert("loser");
+  posts.map((post) =>
+    connection.query(
+      `insert into articles (id, title, content) Values(?,?,?)`,
+      [
+        uuid(),
+        post.title,
+        post.body,
+        // post.id,
+      ]
+    )
+  );
   // console.log({ posts.title, posts.body,});
   //   connection.query(
   //     `insert into articles Values(?,?,?,?)`,

@@ -117,7 +117,7 @@ function ModalNew({ refresh }) {
     setSearchParams({});
   }
   // const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
+  // const handleShow = () => setShow(true);
   const inputEl = useRef();
   useEffect(() => {
     if (show) {

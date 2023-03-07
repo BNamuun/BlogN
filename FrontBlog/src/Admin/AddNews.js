@@ -8,7 +8,7 @@ export function AddNews() {
   const [categoryId, setCategoryId] = useState("");
   const [text, setText] = useState("");
   function submit() {
-    console.log(title, categoryId, text);
+    console.log({ title, categoryId, text });
     axios
       .post("http://localhost:8000/articles", {
         title,
@@ -25,7 +25,7 @@ export function AddNews() {
         }
       });
   }
-  console.log(categoryId);
+  // console.log(categoryId);
   return (
     <div className="d-flex flex-column gap-3 m-5">
       <CategoriesSelector

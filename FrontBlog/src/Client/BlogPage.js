@@ -16,12 +16,12 @@ export function BlogPage() {
       setLoading(false);
     };
     fetchPosts();
+    postSampleDat();
   }, []);
 
-  useEffect(() => {
-    console.log(posts);
+  function postSampleDat() {
     axios
-      .post("http://localhost:8000/articles", {
+      .post("http://localhost:8000/articles/test", {
         posts,
       })
       .then((res) => {
@@ -30,7 +30,8 @@ export function BlogPage() {
           alert("success");
         }
       });
-  }, [posts]);
+  }
+
   // get current posts
   const indexOfLastPost = currentPage * postsPerPage; // 10
   const indexOfFirtsPost = indexOfLastPost - postsPerPage; // 10 - 10
