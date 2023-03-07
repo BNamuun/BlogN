@@ -103,6 +103,9 @@ app.get("/categories", (req, res) => {
     // console.log(fields); // fields contains extra meta data about results, if available
   });
 });
+app.get("/categoory/updateAllCategory", (req, res) => {
+  connection.query("SELECT * FROM ")
+})
 app.delete("/categories/:id", (req, res) => {
   const { id } = req.params;
   connection.query(
