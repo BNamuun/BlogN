@@ -17,6 +17,20 @@ export function BlogPage() {
     };
     fetchPosts();
   }, []);
+
+  useEffect(() => {
+    console.log(posts);
+    axios
+      .post("http://localhost:8000/articles", {
+        posts,
+      })
+      .then((res) => {
+        const { status } = res;
+        if (status === 201) {
+          alert("success");
+        }
+      });
+  }, [posts]);
   // get current posts
   const indexOfLastPost = currentPage * postsPerPage; // 10
   const indexOfFirtsPost = indexOfLastPost - postsPerPage; // 10 - 10
