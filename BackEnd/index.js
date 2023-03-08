@@ -167,6 +167,30 @@ app.get("/login", (req, res) => {
   }
 });
 
+// app.get("/articles/updateAllCategory", (req, res) => {
+//   connection.query("SELECT * from category", function (err, results, fields) {
+//     const categories = results;
+
+//     connection.query(
+//       "SELECT * FROM `articles`",
+//       function (err, results, fields) {
+//         results.forEach((article, index) => {
+//           const categoryIndex = index % categories.length;
+//           connection.query(
+//             `insert into articles Values(category_id)`,
+//             [categories[categoryIndex].id],
+//             function (err, results, fields) {
+//               res.sendStatus(201);
+//             }
+//           );
+//         });
+//       }
+//     );
+//     res.json({ results });
+//     // console.log(results); // results contains rows returned by server
+//     // console.log(fields); // fields contains extra meta data about results, if available
+//   });
+// });
 app.post("/articles", (req, res) => {
   const { title, categoryId, text } = req.body;
   console.log({ title, categoryId, text });
