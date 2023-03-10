@@ -31,6 +31,7 @@ export function BlogPage() {
   //   });
   // }
   function postSampleDat() {
+    // console.log({ posts });
     axios
       .post("http://localhost:8000/articles/test", {
         posts,

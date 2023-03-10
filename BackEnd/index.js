@@ -105,7 +105,7 @@ app.get("/categories", (req, res) => {
 });
 app.post("/articles/test", (req, res) => {
   const { posts } = req.body;
-  // console.log({ posts });
+  console.log(posts);
   posts.map((post) =>
     connection.query(
       `insert into articles (id, title, content) Values(?,?,?)`,
@@ -117,14 +117,6 @@ app.post("/articles/test", (req, res) => {
       ]
     )
   );
-  // console.log({ posts.title, posts.body,});
-  //   connection.query(
-  //     `insert into articles Values(?,?,?,?)`,
-  //     [uuid(), posts.title, posts.body, posts.id],
-  //     function (err, results, fields) {
-  //       res.sendStatus(201);
-  //     }
-  //   );
 });
 app.delete("/categories/:id", (req, res) => {
   const { id } = req.params;
