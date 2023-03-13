@@ -17,7 +17,7 @@ export function BlogPage() {
       setLoading(false);
     };
     fetchPosts();
-    postSampleDat();
+    // postSampleDat();
   }, []);
 
   // function getArticle() {
@@ -29,20 +29,20 @@ export function BlogPage() {
   //       alert(` Aldaaa ${status}`);
   //     }
   //   });
+  // // }
+  // function postSampleDat() {
+  //   // console.log({ posts });
+  //   axios
+  //     .post("http://localhost:8000/articles/test", {
+  //       posts,
+  //     })
+  //     .then((res) => {
+  //       const { status } = res;
+  //       if (status === 201) {
+  //         alert("success");
+  //       }
+  //     });
   // }
-  function postSampleDat() {
-    // console.log({ posts });
-    axios
-      .post("http://localhost:8000/articles/test", {
-        posts,
-      })
-      .then((res) => {
-        const { status } = res;
-        if (status === 201) {
-          alert("success");
-        }
-      });
-  }
 
   // get current posts
   const indexOfLastPost = currentPage * postsPerPage; // 10
