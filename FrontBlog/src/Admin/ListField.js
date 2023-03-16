@@ -4,6 +4,7 @@ import { useSearchParams } from "react-router-dom";
 
 export function ListField({ list, refresh }) {
   // const [text, setText] = useState("");
+  console.log(list);
   const [searchParams, setSearchParams] = useSearchParams({});
   // const editing = searchParams.get("editing");
   function deleteBtn(id) {
@@ -21,6 +22,8 @@ export function ListField({ list, refresh }) {
     setSearchParams({ editing: id });
     // setText(name);
   }
+
+  if (!list) return null;
   return (
     <>
       <ul>

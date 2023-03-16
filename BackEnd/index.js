@@ -5,15 +5,57 @@ const cors = require("cors");
 const fs = require("fs");
 const bcrypt = require("bcryptjs");
 const { connection } = require("./config/mySql");
-// encrypt the pass into shifr,, example
-const hash = bcrypt.hashSync("phone");
-console.log({ hash });
-// Port Number
 const port = 8000;
 // creating express app
 const app = express();
 app.use(express.json());
 app.use(cors());
+// importing mongoose
+const mongoose = require("mongoose");
+
+// connecting to a MongoDB database
+mongoose
+  .connect(
+    "mongodb+srv://tealNamuun:dWrtKeAmmYBZMVTO@cluster5.eqjts3y.mongodb.net/blog"
+  )
+  .then(() => console.log("Connected!"));
+
+// defines the structure of the document, default values,
+const userSchema = new mongoose.Schema({
+  name: String,
+  email: String,
+  age: Number,
+  createdAt: Date,
+});
+//creating the model using schema, passing two arguments,the first is the name of the collection,
+// the second is the schema.
+const User = mongoose.model("User", userSchema);
+//Creating and Saving a Model.
+app.get("/", (req, res) => {
+  User.create({
+    name: " Naraa",
+    email: "naraa@gmail.com",
+    age: 18,
+    createdAt: new Date(),
+  });
+  res.json({});
+});
+
+const categorySchema = new mongoose.Schema({
+  _id: String,
+  name: String,
+});
+
+const Category = mongoose.model("Category", categorySchema);
+
+// app.post("/categories", (req, res) =>{
+//   const {name} = req.body
+// })
+// encrypt the pass into shifr,, example
+const hash = bcrypt.hashSync("phone");
+console.log({ hash });
+// Port Number
+
 // enabling CORS for any unknown origin(https://xyz.example.com)
 // sample api routes for testing
 app.get("/", (req, res) => {
@@ -28,17 +70,24 @@ function readCategories() {
 //   res.json(users);
 // });
 
-app.post("/categories", (req, res) => {
+app.post("/categories", async (req, res) => {
   const { name } = req.body;
 
-  connection.query(
-    `insert into category Values(?,?)`,
-    [uuid(), name],
-    function (err, results, fields) {
-      res.sendStatus(201);
-    }
-  );
+  await Category.create({
+    _id: uuid(),
+    name: name,
+  });
+  res.sendStatus(201);
+  // when using MySQL database
+  // connection.query(
+  //   `insert into category Values(?,?)`,
+  //   [uuid(), name],
+  //   function (err, results, fields) {
+  //     res.sendStatus(201);
+  //   }
+  // );
 
+  // When using local folder without database
   // const categories = readCategories();
   // const newCategory = { id: uuid(), name: name };
   // categories.unshift(newCategory);
@@ -46,14 +95,14 @@ app.post("/categories", (req, res) => {
   // res.sendStatus(201);
 });
 
-app.get("/categories", (req, res) => {
-  // const categories = readCategories();
-  // res.json(categories);
+// app.get("/categories", (req, res) => {
+// const categories = readCategories();
+// res.json(categories);
 
-  connection.query(`select * from category`, function (err, results, fields) {
-    res.json(results);
-  });
-});
+//   connection.query(`select * from category`, function (err, results, fields) {
+//     res.json(results);
+//   });
+// });
 
 app.get("/categories/:id", (req, res) => {
   const { id } = req.params;
@@ -96,12 +145,14 @@ app.put("/categories/:id", (req, res) => {
   //   res.sendStatus(404);
   // }
 });
-app.get("/categories", (req, res) => {
-  connection.query("SELECT * FROM `category`", function (err, results, fields) {
-    res.json({ results });
-    // console.log(results); // results contains rows returned by server
-    // console.log(fields); // fields contains extra meta data about results, if available
-  });
+app.get("/categories", async (req, res) => {
+  const data = await Category.find();
+  console.log({ data });
+  res.json(data);
+  //connection, when we using MySql
+  // connection.query("SELECT * FROM `category`", function (err, results, fields) {
+  //   res.json(results);
+  // });
 });
 app.post("/articles/test", (req, res) => {
   const { posts } = req.body;
@@ -158,29 +209,31 @@ app.get("/login", (req, res) => {
     res.sendStatus(401);
   }
 });
-app.get("http://localhost:8000/articles/populate", (req, res) =>{
-  axios.get("https://dummyjson.com/posts?limit=150").then(function({ data }) {
-    const {posts} = data;
+app.get("http://localhost:8000/articles/populate", (req, res) => {
+  axios.get("https://dummyjson.com/posts?limit=150").then(function ({ data }) {
+    const { posts } = data;
     posts.forEach((post) => {
-      const {title, body} = post;
+      const { title, body } = post;
       const newArticle = {
         id: uuid(),
         title: title,
         content: body,
       };
-      connection.query(`insert into article set ?`, newArticle, function(err, results, fields){
-        console.log(post.id)
-      })
-    })
-  })
-  res.json(["populate"])
-})
-app.get("http://localhost:8000/articles", (req, res) =>{
-  const {page, size, categoryId} = req.query;
-  connection.query(
-    `Select article.id, title, category.name`
-  )
-})
+      connection.query(
+        `insert into article set ?`,
+        newArticle,
+        function (err, results, fields) {
+          console.log(post.id);
+        }
+      );
+    });
+  });
+  res.json(["populate"]);
+});
+app.get("http://localhost:8000/articles", (req, res) => {
+  const { page, size, categoryId } = req.query;
+  connection.query(`Select article.id, title, category.name`);
+});
 // app.get("/articles/updateAllCategory", (req, res) => {
 //   connection.query("SELECT * from category", function (err, results, fields) {
 //     const categories = results;

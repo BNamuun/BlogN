@@ -20,6 +20,8 @@ export function CategoriesList() {
   function refresh() {
     getList();
   }
+
+  console.log("render");
   useEffect(() => {
     getList();
   }, []);
