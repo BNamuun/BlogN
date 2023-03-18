@@ -4,14 +4,18 @@ const express = require("express");
 const cors = require("cors");
 const fs = require("fs");
 const bcrypt = require("bcryptjs");
-const { connection } = require("./config/mySql");
+const { categoryRouter } = require("./routes/categoryController");
+const mongoose = require("mongoose");
+const { articleRouter } = require("./routes/articleController");
 const port = 8000;
 // creating express app
 const app = express();
 app.use(express.json());
 app.use(cors());
+
+app.use("/categories", categoryRouter);
+app.use("articles", articleRouter);
 // importing mongoose
-const mongoose = require("mongoose");
 
 // connecting to a MongoDB database
 mongoose
@@ -41,13 +45,6 @@ app.get("/", (req, res) => {
   res.json({});
 });
 
-const categorySchema = new mongoose.Schema({
-  _id: String,
-  name: String,
-});
-
-const Category = mongoose.model("Category", categorySchema);
-
 // app.post("/categories", (req, res) =>{
 //   const {name} = req.body
 // })
@@ -66,128 +63,7 @@ function readCategories() {
   const categories = JSON.parse(content);
   return categories;
 }
-// app.get("/users", (req, res) => {
-//   res.json(users);
-// });
 
-app.post("/categories", async (req, res) => {
-  const { name } = req.body;
-
-  await Category.create({
-    _id: uuid(),
-    name: name,
-  });
-  res.sendStatus(201);
-  // when using MySQL database
-  // connection.query(
-  //   `insert into category Values(?,?)`,
-  //   [uuid(), name],
-  //   function (err, results, fields) {
-  //     res.sendStatus(201);
-  //   }
-  // );
-
-  // When using local folder without database
-  // const categories = readCategories();
-  // const newCategory = { id: uuid(), name: name };
-  // categories.unshift(newCategory);
-  // fs.writeFileSync("./Data/Categories.json", JSON.stringify(categories));
-  // res.sendStatus(201);
-});
-
-// app.get("/categories", (req, res) => {
-// const categories = readCategories();
-// res.json(categories);
-
-//   connection.query(`select * from category`, function (err, results, fields) {
-//     res.json(results);
-//   });
-// });
-
-app.get("/categories/:id", (req, res) => {
-  const { id } = req.params;
-  connection.query(
-    `select * from category where id = ?`,
-    [id],
-    function (err, results, fields) {
-      console.log(results[0]);
-      res.json(results[0]);
-    }
-  );
-  // const categories = readCategories();
-  // const index = categories.findIndex((element) => element.id === id);
-  // if (index > -1) {
-  //   const editedName = categories[index];
-  //   // console.log({ editedName });
-  //   res.json(editedName);
-  // } else {
-  //   res.sendStatus(404);
-  // }
-});
-app.put("/categories/:id", (req, res) => {
-  const categories = readCategories();
-  const { id } = req.params;
-  const { name } = req.body;
-  connection.query(
-    `UPDATE category set name=? where id = ?`,
-    [name, id],
-    function (err, results, fields) {
-      res.json({ Updatedid: id });
-    }
-  );
-
-  // const index = categories.findIndex((element) => element.id === id);
-  // if (index > -1) {
-  //   categories[index].name = name;
-  //   fs.writeFileSync("./Data/Categories.json", JSON.stringify(categories));
-  //   res.json({ updatedId: id });
-  // } else {
-  //   res.sendStatus(404);
-  // }
-});
-app.get("/categories", async (req, res) => {
-  const data = await Category.find();
-  console.log({ data });
-  res.json(data);
-  //connection, when we using MySql
-  // connection.query("SELECT * FROM `category`", function (err, results, fields) {
-  //   res.json(results);
-  // });
-});
-app.post("/articles/test", (req, res) => {
-  const { posts } = req.body;
-  console.log(posts);
-  posts.map((post) =>
-    connection.query(
-      `insert into articles (id, title, content) Values(?,?,?)`,
-      [
-        uuid(),
-        post.title,
-        post.body,
-        // post.id,
-      ]
-    )
-  );
-});
-app.delete("/categories/:id", (req, res) => {
-  const { id } = req.params;
-  connection.query(
-    `DELETE from category where id = ?`,
-    [id],
-    function (err, results, fields) {
-      res.json({ DeletedID: id });
-    }
-  );
-  // const content = readCategories();
-  // const matchedOne = content.find((content) => content.id === id);
-  // if (matchedOne) {
-  //   const categories = content.filter((category) => category.id !== id);
-  //   fs.writeFileSync("./Data/Categories.json", JSON.stringify(categories));
-  //   res.json({ deletedID: id });
-  // } else {
-  //   res.sendStatus(404);
-  // }
-});
 const userInfo = {
   username: "Namuun",
   // pass: "phone",
@@ -208,66 +84,6 @@ app.get("/login", (req, res) => {
   } else {
     res.sendStatus(401);
   }
-});
-app.get("http://localhost:8000/articles/populate", (req, res) => {
-  axios.get("https://dummyjson.com/posts?limit=150").then(function ({ data }) {
-    const { posts } = data;
-    posts.forEach((post) => {
-      const { title, body } = post;
-      const newArticle = {
-        id: uuid(),
-        title: title,
-        content: body,
-      };
-      connection.query(
-        `insert into article set ?`,
-        newArticle,
-        function (err, results, fields) {
-          console.log(post.id);
-        }
-      );
-    });
-  });
-  res.json(["populate"]);
-});
-app.get("http://localhost:8000/articles", (req, res) => {
-  const { page, size, categoryId } = req.query;
-  connection.query(`Select article.id, title, category.name`);
-});
-// app.get("/articles/updateAllCategory", (req, res) => {
-//   connection.query("SELECT * from category", function (err, results, fields) {
-//     const categories = results;
-
-//     connection.query(
-//       "SELECT * FROM `articles`",
-//       function (err, results, fields) {
-//         results.forEach((article, index) => {
-//           const categoryIndex = index % categories.length;
-//           connection.query(
-//             `insert into articles Values(category_id)`,
-//             [categories[categoryIndex].id],
-//             function (err, results, fields) {
-//               res.sendStatus(201);
-//             }
-//           );
-//         });
-//       }
-//     );
-//     res.json({ results });
-//     // console.log(results); // results contains rows returned by server
-//     // console.log(fields); // fields contains extra meta data about results, if available
-//   });
-// });
-app.post("/articles", (req, res) => {
-  const { title, categoryId, text } = req.body;
-  console.log({ title, categoryId, text });
-  connection.query(
-    `insert into articles Values(?,?,?,?)`,
-    [uuid(), title, text, categoryId],
-    function (err, results, fields) {
-      res.sendStatus(201);
-    }
-  );
 });
 
 app.listen(port, () => {
