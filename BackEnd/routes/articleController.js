@@ -56,7 +56,32 @@ router.get("http://localhost:8000/articles/populate", (req, res) => {
 
 router.get("/", (req, res) => {
   const { page, size, categoryId } = req.query;
-  connection.query(`Select article.id, title, category.name`);
+  let params = [];
+  let countParams = [];
+  let whereQuery = "";
+  if (categoryId) {
+    whereQuery = "where category_id=?";
+    params.push(categoryId);
+    countParams.push(categoryId);
+  }
+  params.push((page - 1) * size + 1);
+  params.push(+size);
+  connection.query(
+    `Select article.id, title, category.name as categoryName from article left join category on article.category_id = category.id ${whereQuery} limit ?,?`,
+    params,
+    function (err, articleResults, fields) {
+      connection.query(
+        `Select count(*) as count from article ${whereQuery}`,
+        countParams,
+        function (err, countResults, fields) {
+          res.json({
+            list: articleResults,
+            count: countResults[0].count,
+          });
+        }
+      );
+    }
+  );
 });
 // router.get("/articles/updateAllCategory", (req, res) => {
 //   connection.query("SELECT * from category", function (err, results, fields) {

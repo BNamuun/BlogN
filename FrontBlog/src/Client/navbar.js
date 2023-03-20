@@ -33,7 +33,9 @@ export function NavBar() {
             <Nav.Link to="/blog" as={Link}>
               Articles
             </Nav.Link>
-            <Nav.Link href="#action2">Link</Nav.Link>
+            <Nav.Link to="/admin/listOfTemplates" as={Link}>
+              Link
+            </Nav.Link>
             <NavDropdown title="Link" id="navbarScrollingDropdown">
               <NavDropdown.Item href="#action3">Action</NavDropdown.Item>
               <NavDropdown.Item href="#action4">
@@ -44,9 +46,9 @@ export function NavBar() {
                 Something else here
               </NavDropdown.Item>
             </NavDropdown>
-            <Nav.Link href="#" disabled>
+            {/* <Nav.Link href="/admin/listOfTemplates" as={Link}>
               Link
-            </Nav.Link>
+            </Nav.Link> */}
           </Nav>
           <Form className="d-flex">
             <Form.Control

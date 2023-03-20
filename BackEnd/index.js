@@ -20,7 +20,7 @@ app.use("articles", articleRouter);
 // connecting to a MongoDB database
 mongoose
   .connect(
-    "mongodb+srv://tealNamuun:dWrtKeAmmYBZMVTO@cluster5.eqjts3y.mongodb.net/blog"
+    "mongodb+srv://tealNamuun:FtawxCMWFxDgpPcL@cluster5.eqjts3y.mongodb.net/blog"
   )
   .then(() => console.log("Connected!"));
 
