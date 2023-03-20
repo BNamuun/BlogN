@@ -32,7 +32,7 @@ router.post("/test", (req, res) => {
   );
 });
 
-router.get("http://localhost:8000/articles/populate", (req, res) => {
+router.get("/populate", (req, res) => {
   axios.get("https://dummyjson.com/posts?limit=150").then(function ({ data }) {
     const { posts } = data;
     posts.forEach((post) => {

@@ -14,7 +14,7 @@ app.use(express.json());
 app.use(cors());
 
 app.use("/categories", categoryRouter);
-app.use("articles", articleRouter);
+app.use("/articles", articleRouter);
 // importing mongoose
 
 // connecting to a MongoDB database

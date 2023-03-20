@@ -9,8 +9,8 @@ export function Articles() {
   const [pages, setPages] = useState();
   const [categoryId, setCategoryId] = useState("");
   const page = searchParams.get("page") ? Number(searchParams.get("page")) : 1;
-  const { list, count } = useArticles(page, size, "", categoryId);
-
+  const { list, count } = useArticles("", page, size, categoryId);
+  console.log({ list });
   useEffect(() => {
     if (count) {
       setPages(Math.ceil(count / size));
