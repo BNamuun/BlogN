@@ -7,6 +7,8 @@ const bcrypt = require("bcryptjs");
 const { categoryRouter } = require("./routes/categoryController");
 const mongoose = require("mongoose");
 const { articleRouter } = require("./routes/articleController");
+const multer = require("multer");
+
 const port = 8000;
 // creating express app
 const app = express();
@@ -84,6 +86,24 @@ app.get("/login", (req, res) => {
   } else {
     res.sendStatus(401);
   }
+});
+
+// multer
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, "uploads/");
+  },
+  filename: function (req, file, cb) {
+    const extension = file.originalname.split(".").pop(); // get extension of file using pop(), which is separating the last part of filename splitted by dot.
+    cb(null, `${uuid()}.${extension}`);
+  },
+});
+const upload = multer({ storage: storage });
+app.use("/uploads", express.static("uploads")); // making this folder possible to access files from this folder via HTTP
+// filename: specifying file name
+// destination: specifying the folder in which file should be stored
+app.post("/upload-image", upload.single("image"), function (req, res, next) {
+  res.json(["success"]);
 });
 
 app.listen(port, () => {

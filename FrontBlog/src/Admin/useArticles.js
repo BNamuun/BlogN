@@ -7,12 +7,12 @@ export function useArticles(query, page, size, categoryId) {
   function loadArticles() {
     axios
       .get(
-        `http://localhost:8000/articles?q=${query}&page${page}&size=${size}&categoryId=${categoryId}`
+        `http://localhost:8000/articles?q=${query}&page=${page}&size=${size}&categoryId=${categoryId}`
       )
       .then((res) => {
         const { data, status } = res;
         if (status === 200) {
-          const { list, count } = res;
+          const { list, count } = data;
           setList(list);
           setCount(count);
         } else {

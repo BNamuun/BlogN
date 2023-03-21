@@ -17,9 +17,12 @@ export function Articles() {
     }
   }, [count]);
 
+  // below useEffect is works once, next time return work when categoryId changes;
   useEffect(() => {
     setSearchParams({ page: 1 });
   }, [categoryId]);
+
+  console.log({ list });
 
   return (
     <>
@@ -52,24 +55,27 @@ export function Articles() {
         <ul className="pagination">
           {page !== 1 && (
             <li className="page-item">
-              <Link to={`?page = ${page - 1}`} className="page-link">
+              <Link to={`?page=${page - 1}`} className="page-link">
                 Өмнөх
               </Link>
             </li>
           )}
+
+          {/* ...Array(10) == Ex: 10 hurtel [1,2,3... etc] will be created*/}
           {[...Array(pages)].map((_, index) => (
             <li
               key={index}
-              className={`page-item ${page == index + 1 ? "active" : ""}`}
+              className={`page-item ${page === index + 1 ? "active" : ""}`}
             >
-              <Link to={`?page = ${index + 1}`} className="page-link">
+              {/* first by order, settingParams to page  */}
+              <Link to={`?page=${index + 1}`} className="page-link">
                 {index + 1}
               </Link>
             </li>
           ))}
           {page !== pages && (
             <li className="page-item">
-              <Link to={`?page = ${page + 1}`} className="page-link">
+              <Link to={`?page=${page + 1}`} className="page-link">
                 Дараах
               </Link>
             </li>

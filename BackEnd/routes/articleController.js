@@ -11,13 +11,14 @@ router.post("/", (req, res) => {
   const newArticles = {
     id: uuid(),
     title: title,
-    text: text,
+    content: text,
     category_id: categoryId,
   };
   connection.query(
     `insert into articles Values(?)`,
     newArticles,
     function (err, results, fields) {
+      console.log({ results });
       res.sendStatus(201);
     }
   );
@@ -71,11 +72,12 @@ router.get("/", (req, res) => {
     params.push(categoryId);
     countParams.push(categoryId);
   }
-  params.push((page - 1) * size + 1);
+  params.push((page - 1) * size + 1); // 1-1, 2-11, 3-21
   params.push(+size);
   connection.query(
     `Select articles.id, title, category.name as categoryName from articles left join category on articles.category_id = category.id ${whereQuery} limit ?,?`,
     params,
+    //
     function (err, articleResults, fields) {
       console.log({ articleResults });
       connection.query(

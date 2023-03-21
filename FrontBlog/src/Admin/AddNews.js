@@ -7,6 +7,12 @@ export function AddNews() {
   const [title, setTitle] = useState("");
   const [categoryId, setCategoryId] = useState("");
   const [text, setText] = useState("");
+  const [image, setImage] = useState("");
+
+  function handleFileUpload() {
+    return <>kjhdkj</>;
+  }
+
   function submit() {
     console.log({ title, categoryId, text });
     axios
@@ -54,6 +60,9 @@ export function AddNews() {
         className="form-control"
         placeholder="Мэдээ оруулах"
       ></input> */}
+      <div>
+        <input type={"file"} name="image" onChange={handleFileUpload} />
+      </div>
       <button className="btn btn-primary m-3" onClick={submit}>
         Submit
       </button>
