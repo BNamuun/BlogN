@@ -12,31 +12,32 @@ const categorySchema = new mongoose.Schema({
 const Category = mongoose.model("Category", categorySchema);
 
 router.get("/", async (req, res) => {
-  const data = await Category.find();
-  console.log({ data });
-  res.json(data);
-  //connection, when we using MySql
-  // connection.query("SELECT * FROM `category`", function (err, results, fields) {
-  //   res.json(results);
-  // });
+  // const data = await Category.find();
+  // console.log({ data });
+  // res.json(data);
+  //using MySql
+  connection.query("SELECT * FROM `category`", function (err, results, fields) {
+    res.json(results);
+    // console.log({ results });
+  });
 });
 
 router.post("/", async (req, res) => {
   const { name } = req.body;
 
-  await Category.create({
-    _id: uuid(),
-    name: name,
-  });
-  res.sendStatus(201);
+  // await Category.create({
+  //   _id: uuid(),
+  //   name: name,
+  // });
+  // res.sendStatus(201);
   // when using MySQL database
-  // connection.query(
-  //   `insert into category Values(?,?)`,
-  //   [uuid(), name],
-  //   function (err, results, fields) {
-  //     res.sendStatus(201);
-  //   }
-  // );
+  connection.query(
+    `insert into category Values(?,?)`,
+    [uuid(), name],
+    function (err, results, fields) {
+      res.sendStatus(201);
+    }
+  );
 
   // When using local folder without database
   // const categories = readCategories();
@@ -66,7 +67,7 @@ router.get("/:id", (req, res) => {
   // }
 });
 router.put("/:id", (req, res) => {
-  const categories = readCategories();
+  // const categories = readCategories();
   const { id } = req.params;
   const { name } = req.body;
   connection.query(

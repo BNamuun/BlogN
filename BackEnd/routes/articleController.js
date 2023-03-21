@@ -2,14 +2,21 @@ const express = require("express");
 const { v4: uuid } = require("uuid");
 const { connection } = require("../config/mySql");
 const router = express.Router();
+const axios = require("axios");
 // const mongoose = require("mongoose");
 
 router.post("/", (req, res) => {
   const { title, categoryId, text } = req.body;
   console.log({ title, categoryId, text });
+  const newArticles = {
+    id: uuid(),
+    title: title,
+    text: text,
+    category_id: categoryId,
+  };
   connection.query(
-    `insert into articles Values(?,?,?,?)`,
-    [uuid(), title, text, categoryId],
+    `insert into articles Values(?)`,
+    newArticles,
     function (err, results, fields) {
       res.sendStatus(201);
     }
@@ -43,7 +50,7 @@ router.get("/populate", (req, res) => {
         content: body,
       };
       connection.query(
-        `insert into article set ?`,
+        `insert into articles set ?`,
         newArticle,
         function (err, results, fields) {
           console.log(post.id);
@@ -67,17 +74,20 @@ router.get("/", (req, res) => {
   params.push((page - 1) * size + 1);
   params.push(+size);
   connection.query(
-    `Select article.id, title, category.name as categoryName from article left join category on article.category_id = category.id ${whereQuery} limit ?,?`,
+    `Select articles.id, title, category.name as categoryName from articles left join category on articles.category_id = category.id ${whereQuery} limit ?,?`,
     params,
     function (err, articleResults, fields) {
+      console.log({ articleResults });
       connection.query(
-        `Select count(*) as count from article ${whereQuery}`,
+        `Select count(*) as count from articles ${whereQuery}`,
         countParams,
         function (err, countResults, fields) {
+          // console.log({ countResults });
           res.json({
             list: articleResults,
             count: countResults[0].count,
           });
+          // console.log({ count });
         }
       );
     }

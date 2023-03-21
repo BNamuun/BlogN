@@ -10,7 +10,7 @@ export function Articles() {
   const [categoryId, setCategoryId] = useState("");
   const page = searchParams.get("page") ? Number(searchParams.get("page")) : 1;
   const { list, count } = useArticles("", page, size, categoryId);
-  console.log({ list });
+  // console.log({ list });
   useEffect(() => {
     if (count) {
       setPages(Math.ceil(count / size));
@@ -49,9 +49,9 @@ export function Articles() {
         </tbody>
       </table>
       <nav aria-label="Page navigation example">
-        <ul class="pagination">
+        <ul className="pagination">
           {page !== 1 && (
-            <li class="page-item">
+            <li className="page-item">
               <Link to={`?page = ${page - 1}`} className="page-link">
                 Өмнөх
               </Link>

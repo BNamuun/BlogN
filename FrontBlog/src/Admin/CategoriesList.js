@@ -10,6 +10,7 @@ export function CategoriesList() {
   function getList() {
     axios.get("http://localhost:8000/categories").then((res) => {
       const { data, status } = res;
+      // console.log(data);
       if (status === 200) {
         setList1(data);
       } else {

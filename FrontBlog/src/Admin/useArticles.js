@@ -1,7 +1,7 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 
-export function useArticles(page, size, query, categoryId) {
+export function useArticles(query, page, size, categoryId) {
   const [list, setList] = useState([]);
   const [count, setCount] = useState();
   function loadArticles() {
