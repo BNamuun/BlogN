@@ -94,6 +94,7 @@ const storage = multer.diskStorage({
     cb(null, "uploads/");
   },
   filename: function (req, file, cb) {
+    console.log(file);
     const extension = file.originalname.split(".").pop(); // get extension of file using pop(), which is separating the last part of filename splitted by dot.
     cb(null, `${uuid()}.${extension}`);
   },

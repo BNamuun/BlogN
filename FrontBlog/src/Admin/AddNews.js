@@ -9,17 +9,28 @@ export function AddNews() {
   const [text, setText] = useState("");
   const [image, setImage] = useState("");
 
-  function handleFileUpload() {
-    return <>kjhdkj</>;
+  async function handleFileUpload(event) {
+    const imageFile = event.target.files[0];
+    const formData = new FormData();
+    formData.append("image", imageFile); //formData.append(name, value) – add a form field with the given name and value,
+    await fetch("http://localhost:8000/upload-image", {
+      method: "POST",
+      body: formData,
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        setImage(data.file);
+      });
   }
 
   function submit() {
-    console.log({ title, categoryId, text });
+    console.log({ title, categoryId, text, image });
     axios
       .post("http://localhost:8000/articles", {
         title,
         categoryId,
         text,
+        image,
       })
       .then((res) => {
         const { status } = res;
@@ -60,8 +71,17 @@ export function AddNews() {
         className="form-control"
         placeholder="Мэдээ оруулах"
       ></input> */}
+      {/* <form
+        action="http://localhost:8000/upload-image"
+        method="post"
+        enctype="multipart/form-data"
+        style={{ margin: "2em" }}
+      >
+        <input type="file" name="image" />
+        <button type="submit">Submit</button>
+      </form> */}
       <div>
-        <input type={"file"} name="image" onChange={handleFileUpload} />
+        <input type="file" name="image" onChange={{ handleFileUpload }} />
       </div>
       <button className="btn btn-primary m-3" onClick={submit}>
         Submit

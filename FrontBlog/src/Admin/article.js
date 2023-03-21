@@ -25,7 +25,7 @@ export function Articles() {
   console.log({ list });
 
   return (
-    <>
+    <div className="container">
       {/* <Link to="/admin/listOfTemplates" className="btn btn-primary">
         {" "}
         Шинэ мэдээ
@@ -82,6 +82,6 @@ export function Articles() {
           )}
         </ul>
       </nav>
-    </>
+    </div>
   );
 }
