@@ -12,14 +12,14 @@ const categorySchema = new mongoose.Schema({
 const Category = mongoose.model("Category", categorySchema);
 
 router.get("/", async (req, res) => {
-  // const data = await Category.find();
-  // console.log({ data });
-  // res.json(data);
+  const data = await Category.find();
+  console.log({ data });
+  res.json(data);
   //using MySql
-  connection.query("SELECT * FROM `category`", function (err, results, fields) {
-    res.json(results);
-    // console.log({ results });
-  });
+  // connection.query("SELECT * FROM `category`", function (err, results, fields) {
+  //   res.json(results);
+  // console.log({ results });
+  // });
 });
 
 router.post("/", async (req, res) => {

@@ -15,3 +15,5 @@ create table articles(
     PRIMARY KEY (id),
     FOREIGN KEY (category_id) REFERENCES category(id) 
 )
+
+ALTER TABLE articles add image VARCHAR(255);

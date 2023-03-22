@@ -38,13 +38,15 @@ export function Articles() {
       <table className="table table-bordered table-striped">
         <thead>
           <tr>
+            <th> Зураг </th>
             <th> Гарчиг</th>
             <th> Ангилал</th>
           </tr>
         </thead>
         <tbody>
-          {list.map((article) => (
+          {list.map((article, index) => (
             <tr key={article.id}>
+              <td>{article.index}</td>
               <td>{article.title}</td>
               <td>{article.categoryName}</td>
             </tr>

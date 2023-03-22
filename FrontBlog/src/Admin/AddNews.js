@@ -24,7 +24,7 @@ export function AddNews() {
   }
 
   function submit() {
-    console.log({ title, categoryId, text, image });
+    // console.log({ title, categoryId, text, image });
     axios
       .post("http://localhost:8000/articles", {
         title,
@@ -81,7 +81,7 @@ export function AddNews() {
         <button type="submit">Submit</button>
       </form> */}
       <div>
-        <input type="file" name="image" onChange={{ handleFileUpload }} />
+        <input type="file" name="image" onChange={handleFileUpload} />
       </div>
       <button className="btn btn-primary m-3" onClick={submit}>
         Submit
