@@ -45,7 +45,7 @@ export function Articles() {
         </thead>
         <tbody>
           {list.map((article) => (
-            <tr key={article.id}>
+            <tr key={article._id}>
               <td>
                 {article.image ? (
                   <img src={article.image.path} width="100" alt="" />
@@ -54,7 +54,7 @@ export function Articles() {
                 )}
               </td>
               <td>{article.title}</td>
-              <td>{article.categoryId?.Name}</td>
+              <td>{article.categoryId?.name}</td>
             </tr>
           ))}
         </tbody>

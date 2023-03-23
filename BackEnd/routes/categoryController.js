@@ -47,37 +47,49 @@ router.post("/", async (req, res) => {
   // fs.writeFileSync("./Data/Categories.json", JSON.stringify(categories));
   // res.sendStatus(201);
 });
-router.get("/:id", (req, res) => {
+router.get("/:id", async (req, res) => {
   const { id } = req.params;
-  connection.query(
-    `select * from category where id = ?`,
-    [id],
-    function (err, results, fields) {
-      console.log(results[0]);
-      res.json(results[0]);
-    }
-  );
-  // const categories = readCategories();
-  // const index = categories.findIndex((element) => element.id === id);
-  // if (index > -1) {
-  //   const editedName = categories[index];
-  //   // console.log({ editedName });
-  //   res.json(editedName);
-  // } else {
-  //   res.sendStatus(404);
-  // }
+  // console.log({ id });
+  const one = await Category.findById(id);
+  res.json(one);
 });
+
+// MySql
+// connection.query(
+//   `select * from category where id = ?`,
+//   [id],
+//   function (err, results, fields) {
+//     console.log(results[0]);
+//     res.json(results[0]);
+//   }
+// );
+// const categories = readCategories();
+// const index = categories.findIndex((element) => element.id === id);
+// if (index > -1) {
+//   const editedName = categories[index];
+//   // console.log({ editedName });
+//   res.json(editedName);
+// } else {
+//   res.sendStatus(404);
+// }
+// });
 router.put("/:id", (req, res) => {
   // const categories = readCategories();
   const { id } = req.params;
   const { name } = req.body;
-  connection.query(
-    `UPDATE category set name=? where id = ?`,
-    [name, id],
-    function (err, results, fields) {
-      res.json({ Updatedid: id });
-    }
-  );
+  // MongoDb
+
+  Category.updateOne({ _id: id }, { name }).then(() => {
+    res.json({ updatedId: id });
+  });
+  //MySql
+  // connection.query(
+  //   `UPDATE category set name=? where id = ?`,
+  //   [name, id],
+  //   function (err, results, fields) {
+  //     res.json({ Updatedid: id });
+  //   }
+  // );
 
   // const index = categories.findIndex((element) => element.id === id);
   // if (index > -1) {
@@ -91,13 +103,16 @@ router.put("/:id", (req, res) => {
 
 router.delete("/:id", (req, res) => {
   const { id } = req.params;
-  connection.query(
-    `DELETE from category where id = ?`,
-    [id],
-    function (err, results, fields) {
-      res.json({ DeletedID: id });
-    }
-  );
+  // MongoDb
+  Category.deleteOne({ _id: id }).then(() => {
+    res.json({ DeletedID: id });
+    //MySql
+    // connection.query(
+    //   `DELETE from category where id = ?`,
+    //   [id],
+    //   function (err, results, fields) {
+    //     res.json({ DeletedID: id });
+  });
   // const content = readCategories();
   // const matchedOne = content.find((content) => content.id === id);
   // if (matchedOne) {

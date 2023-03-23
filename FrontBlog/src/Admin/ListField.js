@@ -28,10 +28,10 @@ export function ListField({ list, refresh }) {
     <>
       <ul>
         {list.map((item, index) => (
-          <li key={item.id}>
+          <li key={item._id}>
             {item.name}{" "}
-            <button onClick={() => editBtn(item.id, item.name)}>Засах</button>
-            <button onClick={() => deleteBtn(item.id)}> Устгах</button>
+            <button onClick={() => editBtn(item._id, item.name)}>Засах</button>
+            <button onClick={() => deleteBtn(item._id)}> Устгах</button>
           </li>
         ))}
       </ul>

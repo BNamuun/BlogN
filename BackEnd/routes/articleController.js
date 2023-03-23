@@ -72,6 +72,11 @@ router.post("/test", (req, res) => {
     )
   );
 });
+router.get("/:id", async (req, res) => {
+  const { id } = req.params;
+  const one = await Article.findById(id);
+  res.json(one);
+});
 
 // router.get("/populate", (req, res) => {
 //   axios.get("https://dummyjson.com/posts?limit=150").then(function ({ data }) {
