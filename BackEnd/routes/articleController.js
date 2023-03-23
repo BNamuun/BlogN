@@ -19,28 +19,42 @@ const articleSchema = new mongoose.Schema({
 const Article = mongoose.model("Article", articleSchema);
 
 router.get("/", async (req, res) => {
-  const list = await Article.find({}).populate(categoryId);
-  list: list,
-  // count: 10,
+  const list = await Article.find({}).populate("categoryId");
+
+  res.json({
+    list: list,
+    count: 10,
+  });
 });
-router.post("/", (req, res) => {
-  const { title, categoryId, text, image } = req.body;
-  console.log({ title, categoryId, text, image });
-  const newArticles = {
-    id: uuid(),
-    title: title,
-    content: text,
-    category_id: categoryId,
-    image: image,
-  };
-  connection.query(
-    `insert into articles Values(?)`,
-    newArticles,
-    function (err, results, fields) {
-      console.log({ results });
-      res.sendStatus(201);
-    }
-  );
+router.post("/", async (req, res) => {
+  const { title, categoryId, content, image } = req.body;
+  console.log({ title, categoryId, content, image });
+
+  //Mongoose
+  await Article.create({
+    title,
+    content,
+    categoryId,
+    image,
+  });
+  res.sendStatus(201);
+
+  //when using MySql
+  // const newArticles = {
+  //   id: uuid(),
+  //   title: title,
+  //   content: text,
+  //   category_id: categoryId,
+  //   image: image,
+  // };
+  // connection.query(
+  //   `insert into articles Values(?)`,
+  //   newArticles,
+  //   function (err, results, fields) {
+  //     console.log({ results });
+  //     res.sendStatus(201);
+  //   }
+  // );
 });
 
 router.post("/test", (req, res) => {

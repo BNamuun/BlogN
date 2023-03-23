@@ -44,11 +44,17 @@ export function Articles() {
           </tr>
         </thead>
         <tbody>
-          {list.map((article, index) => (
+          {list.map((article) => (
             <tr key={article.id}>
-              <td>{article.index}</td>
+              <td>
+                {article.image ? (
+                  <img src={article.image.path} width="100" alt="" />
+                ) : (
+                  <div></div>
+                )}
+              </td>
               <td>{article.title}</td>
-              <td>{article.categoryName}</td>
+              <td>{article.categoryId?.Name}</td>
             </tr>
           ))}
         </tbody>

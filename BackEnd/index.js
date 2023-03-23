@@ -116,11 +116,14 @@ app.post(
   "/upload-image",
   upload.single("image"),
   async function (req, res, next) {
-    const upload = await cloudinary.v2.uploader.upload(req.file.path);
-    console.log({ upload });
+    // const upload = await cloudinary.v2.uploader.upload(req.file.path);
+    // console.log({ upload });
+    const cloudinaryImage = await cloudinary.v2.uploader.upload(req.file.path);
     return res.json({
       success: true,
-      file: upload.secure_url,
+      path: cloudinaryImage.secure_url,
+      width: cloudinaryImage.width,
+      height: cloudinaryImage.height,
     });
   }
 );

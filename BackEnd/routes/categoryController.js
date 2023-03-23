@@ -12,7 +12,7 @@ const categorySchema = new mongoose.Schema({
 const Category = mongoose.model("Category", categorySchema);
 
 router.get("/", async (req, res) => {
-  const data = await Category.find();
+  const data = await Category.find({});
   console.log({ data });
   res.json(data);
   //using MySql
@@ -24,20 +24,21 @@ router.get("/", async (req, res) => {
 
 router.post("/", async (req, res) => {
   const { name } = req.body;
+  //Mongooose
+  await Category.create({
+    _id: uuid(),
+    name: name,
+  });
+  res.sendStatus(201);
 
-  // await Category.create({
-  //   _id: uuid(),
-  //   name: name,
-  // });
-  // res.sendStatus(201);
   // when using MySQL database
-  connection.query(
-    `insert into category Values(?,?)`,
-    [uuid(), name],
-    function (err, results, fields) {
-      res.sendStatus(201);
-    }
-  );
+  // connection.query(
+  //   `insert into category Values(?,?)`,
+  //   [uuid(), name],
+  //   function (err, results, fields) {
+  //     res.sendStatus(201);
+  //   }
+  // );
 
   // When using local folder without database
   // const categories = readCategories();

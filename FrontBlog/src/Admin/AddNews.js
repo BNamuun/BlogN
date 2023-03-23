@@ -8,8 +8,10 @@ export function AddNews() {
   const [categoryId, setCategoryId] = useState("");
   const [text, setText] = useState("");
   const [image, setImage] = useState("");
+  const [uploading, setUploading] = useState(false);
 
   async function handleFileUpload(event) {
+    setUploading(true);
     const imageFile = event.target.files[0];
     const formData = new FormData();
     formData.append("image", imageFile); //formData.append(name, value) – add a form field with the given name and value,
@@ -19,7 +21,8 @@ export function AddNews() {
     })
       .then((res) => res.json())
       .then((data) => {
-        setImage(data.file);
+        setImage(data);
+        setUploading(false);
       });
   }
 
@@ -29,7 +32,7 @@ export function AddNews() {
       .post("http://localhost:8000/articles", {
         title,
         categoryId,
-        text,
+        content: text,
         image,
       })
       .then((res) => {
@@ -82,6 +85,12 @@ export function AddNews() {
       </form> */}
       <div>
         <input type="file" name="image" onChange={handleFileUpload} />
+        {uploading && (
+          <div className="spinner-border" role="status">
+            {" "}
+          </div>
+        )}
+        {image && <img src={image.path} width="100" alt="" />}
       </div>
       <button className="btn btn-primary m-3" onClick={submit}>
         Submit
