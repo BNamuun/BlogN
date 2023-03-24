@@ -11,7 +11,7 @@ export function ClientPart() {
       <Routes>
         <Route path="/" element={<Header1 />} />
         <Route path="/blog" element={<BlogPage />} />
-        <Route path="/Register" element={<Register />} />
+        <Route path="/Registration" element={<Register />} />
       </Routes>
     </>
   );

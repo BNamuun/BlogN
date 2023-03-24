@@ -1,7 +1,7 @@
 import { useState } from "react";
 import axios from "axios";
 export function UserLogin() {
-  const [username, setUsername] = useState("");
+  const [userName, setUsername] = useState("");
   const [password, setPassword] = useState("");
 
   function handleKeyDown(e) {
@@ -11,28 +11,33 @@ export function UserLogin() {
   }
   function login() {
     axios
-      .get(
-        `http://localhost:8000/login?username=${username}&password=${password}`
-      )
+      .post(`http://localhost:8000/users/login`, {
+        userName,
+        password,
+      })
       .then((res) => {
         const { data, status } = res;
         if (status === 200) {
-          const { token } = data;
-          localStorage.setItem("loginToken", token);
-
-          // window.location = "/admin";
-          window.location.reload();
-          alert("Амжилттай нэвтэрлээ");
+          // const { token } = data;
+          // localStorage.setItem("loginToken", token);
+          // // window.location = "/admin";
+          // window.location.reload();
+          // alert("Амжилттай нэвтэрлээ");
         }
       })
       .catch(({ response, code }) => {
+        // if (response.status === 401) {
+        //   alert("wrong pass or username");
+        // } else {
+        //   alert(code);
+        // }
         if (response.status === 401) {
-          alert("wrong pass or username");
+          alert("Нууц үг эсвэл нэр буруу байна");
         } else {
           alert(code);
         }
       });
-    return console.log({ username, password });
+    return console.log({ userName, password });
   }
   return (
     <div className="container w-50 mt-5 d-flex flex-column gap-2">
