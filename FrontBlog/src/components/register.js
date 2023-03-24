@@ -1,5 +1,5 @@
 import { useState } from "react";
-const axios = require("axios");
+import axios from "axios";
 export function Register() {
   const [userName, setUsername] = useState("");
   const [password, setPassword] = useState("");

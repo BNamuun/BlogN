@@ -18,11 +18,11 @@ export function UserLogin() {
       .then((res) => {
         const { data, status } = res;
         if (status === 200) {
-          // const { token } = data;
-          // localStorage.setItem("loginToken", token);
+          const { token } = data;
+          localStorage.setItem("loginToken", token);
           // // window.location = "/admin";
-          // window.location.reload();
-          // alert("Амжилттай нэвтэрлээ");
+          window.location.reload();
+          alert("Амжилттай нэвтэрлээ");
         }
       })
       .catch(({ response, code }) => {

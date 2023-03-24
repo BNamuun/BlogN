@@ -4,6 +4,7 @@ const { connection } = require("../config/mySql");
 const router = express.Router();
 const mongoose = require("mongoose");
 const bcrypt = require("bcryptjs");
+const jwt = require("jsonwebtoken");
 const User = mongoose.model("userInfo", {
   _id: { type: String, default: () => uuid() },
   userName: {
@@ -25,7 +26,7 @@ router.post("/Registration", async (req, res) => {
   if (!userName) {
     res.status(400).json({ message: "Нууц үгээ оруулна уу" });
   }
-  const newUser = new UserLogin({
+  const newUser = new User({
     userName,
     password: hashedPassword,
   });
@@ -45,8 +46,11 @@ router.post("/login", async (req, res) => {
   });
   if (one) {
     const auth = bcrypt.compareSync(password, one.password);
+    console.log({ auth });
     if (auth) {
-      res.json({ token: uuid() });
+      // res.json({ token: uuid() });
+      const token = jwt.sign({ userId: one._id }, "MxIo001Mp1");
+      res.json({ token: token });
     } else {
       res.status(400).json({ message: "Буруу байна" });
     }
