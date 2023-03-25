@@ -8,7 +8,7 @@ export function CategoriesList() {
   const [list1, setList1] = useState([]);
 
   function getList() {
-    axios.get("http://localhost:8000/categories").then((res) => {
+    axios.get(`${process.env.REACT_APP_API_URL}/categories`).then((res) => {
       const { data, status } = res;
       // console.log(data);
       if (status === 200) {
@@ -63,16 +63,18 @@ function ModalNew({ refresh }) {
     if (editing) {
       // setShow(true);
       if (editing !== "new") {
-        axios.get(`http://localhost:8000/categories/${editing}`).then((res) => {
-          const { data, status } = res;
-          // console.log(data);
-          console.log(res);
-          if (status === 200) {
-            setText(data.name);
-          } else {
-            alert(`error${status}`);
-          }
-        });
+        axios
+          .get(`${process.env.REACT_APP_API_URL}/categories/${editing}`)
+          .then((res) => {
+            const { data, status } = res;
+            // console.log(data);
+            console.log(res);
+            if (status === 200) {
+              setText(data.name);
+            } else {
+              alert(`error${status}`);
+            }
+          });
       }
     }
   }, [editing]);
@@ -83,7 +85,7 @@ function ModalNew({ refresh }) {
     // onChange(text);
     if (editing === "new") {
       axios
-        .post("http://localhost:8000/categories", {
+        .post(`${process.env.REACT_APP_API_URL}/categories`, {
           name: text,
         })
         .then((res) => {
@@ -96,7 +98,7 @@ function ModalNew({ refresh }) {
         });
     } else {
       axios
-        .put(`http://localhost:8000/categories/${editing}`, {
+        .put(`${process.env.REACT_APP_API_URL}/categories/${editing}`, {
           name: text,
         })
         .then((res) => {

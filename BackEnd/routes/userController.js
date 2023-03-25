@@ -1,6 +1,6 @@
 const express = require("express");
 const { v4: uuid } = require("uuid");
-const { connection } = require("../config/mySql");
+// const { connection } = require("../config/mySql");
 const router = express.Router();
 const mongoose = require("mongoose");
 const bcrypt = require("bcryptjs");
@@ -46,10 +46,10 @@ router.post("/login", async (req, res) => {
   });
   if (one) {
     const auth = bcrypt.compareSync(password, one.password);
-    console.log({ auth });
+    // console.log({ auth });
     if (auth) {
       // res.json({ token: uuid() });
-      const token = jwt.sign({ userId: one._id }, "MxIo001Mp1");
+      const token = jwt.sign({ userId: one._id }, process.env.JWT_SECRET);
       res.json({ token: token });
     } else {
       res.status(400).json({ message: "Буруу байна" });

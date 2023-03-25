@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 export function CategoriesSelector({ value, onChange }) {
   const [categories, setGategories] = useState([]);
   useEffect(() => {
-    axios.get("http://localhost:8000/categories").then((res) => {
+    axios.get(`${process.env.REACT_APP_API_URL}/categories`).then((res) => {
       const { data, status } = res;
       if (status === 200) {
         setGategories(data);

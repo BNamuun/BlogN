@@ -15,7 +15,7 @@ export function AddNews() {
     const imageFile = event.target.files[0];
     const formData = new FormData();
     formData.append("image", imageFile); //formData.append(name, value) – add a form field with the given name and value,
-    await fetch("http://localhost:8000/upload-image", {
+    await fetch(`${process.env.REACT_APP_API_URL}/upload-image`, {
       method: "POST",
       body: formData,
     })
@@ -29,7 +29,7 @@ export function AddNews() {
   function submit() {
     // console.log({ title, categoryId, text, image });
     axios
-      .post("http://localhost:8000/articles", {
+      .post(`${process.env.REACT_APP_API_URL}/articles`, {
         title,
         categoryId,
         content: text,

@@ -11,15 +11,17 @@ const { articleRouter } = require("./routes/articleController");
 const multer = require("multer");
 const cloudinary = require("cloudinary");
 const { userRouter } = require("./routes/userController");
+const { checkAuth } = require("./middlewares/checkAuth");
 const port = 8000;
 // creating express app
 const app = express();
 app.use(express.json());
 app.use(cors());
 
-app.use("/categories", categoryRouter);
-app.use("/articles", articleRouter);
+app.use("/categories", checkAuth, categoryRouter);
+app.use("/articles", checkAuth, articleRouter);
 app.use("/users", userRouter);
+
 // importing mongoose
 
 // connecting to a MongoDB database

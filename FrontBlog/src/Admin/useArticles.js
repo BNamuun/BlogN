@@ -7,7 +7,7 @@ export function useArticles(query, page, size, categoryId) {
   function loadArticles() {
     axios
       .get(
-        `http://localhost:8000/articles?q=${query}&page=${page}&size=${size}&categoryId=${categoryId}`
+        `${process.env.REACT_APP_API_URL}/articles?q=${query}&page=${page}&size=${size}&categoryId=${categoryId}`
       )
       .then((res) => {
         const { data, status } = res;

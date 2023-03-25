@@ -9,13 +9,15 @@ export function ListField({ list, refresh }) {
   // const editing = searchParams.get("editing");
   function deleteBtn(id) {
     if (window.confirm("Delete")) {
-      axios.delete(`http://localhost:8000/categories/${id}`).then((res) => {
-        const { data, status } = res;
-        if (status === 200) {
-          console.log(data);
-          refresh();
-        }
-      });
+      axios
+        .delete(`${process.env.REACT_APP_API_URL}/categories/${id}`)
+        .then((res) => {
+          const { data, status } = res;
+          if (status === 200) {
+            console.log(data);
+            refresh();
+          }
+        });
     }
   }
   function editBtn(id) {

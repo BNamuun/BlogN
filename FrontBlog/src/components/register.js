@@ -5,7 +5,7 @@ export function Register() {
   const [password, setPassword] = useState("");
   function handleRegister() {
     axios
-      .post(`http://localhost:8000/users/Registration`, {
+      .post(`${process.env.REACT_APP_API_URL}/users/Registration`, {
         userName,
         password,
       })
