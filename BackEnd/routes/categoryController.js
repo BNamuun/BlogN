@@ -3,6 +3,7 @@ const { v4: uuid } = require("uuid");
 const { connection } = require("../config/mySql");
 const router = express.Router();
 const mongoose = require("mongoose");
+const jwt = require("jsonwebtoken");
 
 const categorySchema = new mongoose.Schema({
   _id: String,
@@ -10,11 +11,18 @@ const categorySchema = new mongoose.Schema({
 });
 
 const Category = mongoose.model("Category", categorySchema);
-
 router.get("/", async (req, res) => {
-  const data = await Category.find({});
-  console.log({ data });
-  res.json(data);
+  const token = req.headers.authorization;
+  jwt.verify(token, "MxIo001Mp1", async function (err, decoded) {
+    if (err) {
+      res.sendStatus(401);
+    } else {
+      var decoded = jwt.verify(token, "MxIo001Mp1");
+      console.log(decoded);
+      const list = await Category.find({});
+      res.json(list);
+    }
+  });
   //using MySql
   // connection.query("SELECT * FROM `category`", function (err, results, fields) {
   //   res.json(results);
