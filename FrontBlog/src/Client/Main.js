@@ -1,9 +1,9 @@
-import { NavBar } from "./navbar";
+import { NavBarClient } from "./navbarClient";
 
 export function Main() {
   return (
     <>
-      <NavBar />
+      <NavBarClient />
     </>
   );
 }

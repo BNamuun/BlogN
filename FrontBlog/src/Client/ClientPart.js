@@ -7,7 +7,7 @@ import { NavBar } from "./navbar";
 export function ClientPart() {
   return (
     <>
-      <NavBar />
+      {/* <NavBar /> */}
       <Routes>
         <Route path="/" element={<Header1 />} />
         <Route path="/blog" element={<BlogPage />} />

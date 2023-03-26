@@ -1,12 +1,13 @@
 .wrap{
     position: relative;
-    height: 40vh;
+    height: 50vh;
+    /* padding: 2rem */
 }
 .wrap::before{
     content: '';
     position: absolute;
     width: 100vw;
-    height: 40vh;
+    height: 50vh;
     background-image: url("../images/kira-auf-der-heide-8s1wfA6aB-4-unsplash.jpg") ;
     background-position: center;
     background-repeat: no-repeat;
@@ -23,6 +24,10 @@
     display: flex;
     justify-content: space-between;
     color: white;
+
+}
+Link{
+    text-decoration: none;
 }
 .navbarR{
     display: flex;

@@ -24,6 +24,7 @@ function Header() {
             <ul className="navbarR">
               <li> Works</li>
               <li> Blog</li>
+              <Link to="/Login "> Login</Link>
               <Link to="/Registration "> Registration</Link>
               <li> Details</li>
             </ul>

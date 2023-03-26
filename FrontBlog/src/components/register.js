@@ -1,8 +1,18 @@
 import { useState } from "react";
 import axios from "axios";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 export function Register() {
   const [userName, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
+  let timeout = 2000;
+  const showToastMessage = () => {
+    toast.success("Ажилттай бүргэгдлээ !", {
+      position: toast.POSITION.TOP_RIGHT,
+      autoClose: timeout,
+    });
+  };
   function handleRegister() {
     axios
       .post(`${process.env.REACT_APP_API_URL}/users/Registration`, {
@@ -11,6 +21,11 @@ export function Register() {
       })
       .then((res) => {
         const { data, status } = res;
+        if (status === 201) {
+          setLoading(true);
+          // alert("Amjilttai");
+          showToastMessage();
+        }
       })
       .catch(({ response, code }) => {
         const { data } = response;
@@ -37,6 +52,7 @@ export function Register() {
         <button onClick={handleRegister} className="btn btn-primary">
           Бүртгүүлэх
         </button>
+        <ToastContainer />
       </div>
     </>
   );
