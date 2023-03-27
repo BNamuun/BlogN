@@ -5,6 +5,10 @@ import { AddNews } from "./AddNews";
 import { Articles } from "./article";
 import { CategoriesList } from "./CategoriesList";
 
+import axios from "axios";
+axios.defaults.headers.common["Authorization"] = `${localStorage.getItem(
+  "loginToken"
+)}`;
 export function Admin() {
   if (!localStorage.getItem("loginToken")) {
     return <UserLogin />;

@@ -25,6 +25,8 @@ export function Register() {
           setLoading(true);
           // alert("Amjilttai");
           showToastMessage();
+          setUsername("");
+          setPassword("");
         }
       })
       .catch(({ response, code }) => {

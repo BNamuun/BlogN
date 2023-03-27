@@ -14,7 +14,7 @@ export function NavBarClient() {
   return (
     <Navbar className="navbar navbar-light bg-light" expand="sm">
       <Container fluid>
-        <Navbar.Brand to="/admin" as={Link}>
+        <Navbar.Brand to="/" as={Link}>
           Client
         </Navbar.Brand>
         <Navbar.Toggle aria-controls="navbarScroll" />
@@ -24,10 +24,10 @@ export function NavBarClient() {
             style={{ maxHeight: "100px" }}
             navbarScroll
           >
-            <Nav.Link to="/admin/categories" as={Link}>
+            <Nav.Link to="/categories" as={Link}>
               Ангилал
             </Nav.Link>
-            <Nav.Link to="/admin/addNews" as={Link}>
+            <Nav.Link to="/addNews" as={Link}>
               News
             </Nav.Link>
             <Nav.Link to="/blog" as={Link}>

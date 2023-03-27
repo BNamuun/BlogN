@@ -3,11 +3,8 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { ClientPart } from "./Client/ClientPart";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Admin } from "./Admin/Admin";
-import axios from "axios";
 
-axios.defaults.headers.common["Authorization"] = `${localStorage.getItem(
-  "loginToken"
-)}`; //  there is a mechanism available which allows you to set default header which will be sent with every request you make.
+//  there is a mechanism available which allows you to set default header which will be sent with every request you make.
 function App() {
   return (
     <>

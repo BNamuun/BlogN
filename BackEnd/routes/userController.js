@@ -23,19 +23,27 @@ router.post("/Registration", async (req, res) => {
   const { userName, password } = req.body;
   console.log({ userName, password });
   const hashedPassword = await bcrypt.hash(password, 8);
-  if (!userName) {
-    res.status(400).json({ message: "Нууц үгээ оруулна уу" });
-  }
+  const one = await User.findOne({
+    userName,
+  });
+
+  // {userName: {$eq: userName}}
   const newUser = new User({
     userName,
     password: hashedPassword,
   });
-
-  try {
-    const result = await newUser.save();
-    res.sendStatus(201);
-  } catch (e) {
-    res.status(400).json(e);
+  if (!userName) {
+    console.log("dsfds");
+    res.status(400).json({ message: "Нууц үгээ оруулна уу" });
+  } else if (one) {
+    res.status(400).json({ message: "Давхцсан" });
+  } else {
+    try {
+      const result = await newUser.save();
+      res.sendStatus(201);
+    } catch (e) {
+      res.status(400).json(e);
+    }
   }
 });
 
